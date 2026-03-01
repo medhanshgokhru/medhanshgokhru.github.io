@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zerocache Registration</title>
+
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: black;
+  color: white;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  border: 2px solid white;
+  padding: 30px;
+  width: 380px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 5px;
+}
+
+.tagline {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  background: black;
+  border: 1px solid white;
+  color: white;
+  font-family: monospace;
+}
+
+textarea {
+  resize: none;
+  height: 60px;
+}
+
+input::placeholder, textarea::placeholder {
+  color: gray;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: black;
+  color: white;
+  border: 1px solid white;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Zerocache</h1>
+  <div class="tagline">no cache, no limits</div>
+
+  <form id="regForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="tel" id="phone" placeholder="Phone Number" required>
+    <input type="text" id="college" placeholder="College / University" required>
+    <input type="text" id="course" placeholder="Course" required>
+    <input type="text" id="year" placeholder="Year" required>
+    <textarea id="work" placeholder="Work Details (optional)"></textarea>
+    <input type="date" id="dob" required>
+
+    <button type="submit">Join Zerocache</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwKVv_iVLMe7sKx5af-U9QZD7c25K72uFtgJHWl5b839E5la5dmtomZSxYjXh_cYs7u/exec";
+const discordURL = "https://discord.gg/Hz3KCKusWz";
+
+document.getElementById("regForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    phone: document.getElementById("phone").value,
+    college: document.getElementById("college").value,
+    course: document.getElementById("course").value,
+    year: document.getElementById("year").value,
+    work: document.getElementById("work").value,
+    dob: document.getElementById("dob").value
+  };
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(() => {
+    document.getElementById("status").innerText = "Redirecting to Discord...";
+    setTimeout(() => {
+      window.location.href = discordURL;
+    }, 1500);
+  })
+  .catch(() => {
+    document.getElementById("status").innerText = "Error submitting form.";
+  });
+});
+</script>
+
+</body>
+</html>
