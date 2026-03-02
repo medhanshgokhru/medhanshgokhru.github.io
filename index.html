@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Zerocache | no cache, no limits.</title>
+<title>ZEROCACHE | no cache, no limits</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap');
 
-* { box-sizing: border-box; cursor: none !important; }
+* {
+  box-sizing: border-box;
+  cursor: none;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top, #111, #000);
+  background: black;
   font-family: 'Inter', sans-serif;
   color: white;
   display: flex;
@@ -22,193 +25,250 @@ body {
   overflow: hidden;
 }
 
-/* BOOT */
-.boot {
+/* ===== STARFIELD ===== */
+.starfield {
   position: fixed;
   inset: 0;
   background: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
-.boot h1 {
-  font-size: clamp(32px, 8vw, 48px);
-  letter-spacing: 4px;
-  animation: glitch 1.5s infinite;
-}
-.boot p { margin-top: 12px; opacity:.7; font-family: monospace; }
-
-@keyframes glitch {
-  0% { text-shadow: 2px 0 white, -2px 0 white; }
-  50% { text-shadow: -2px -2px white, 2px 2px white; }
-  100% { text-shadow: none; }
+  overflow: hidden;
+  z-index: 0;
 }
 
-/* GRID */
-.pixels {
+.star {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 22px 22px;
-  animation: drift 40s linear infinite;
+  width: 2px;
+  height: 2px;
+  background: white;
+  opacity: 0.8;
+  animation: warp linear infinite;
 }
-@keyframes drift { to { transform: translate(-200px,-200px); } }
 
-/* CARD */
+@keyframes warp {
+  from {
+    transform: translateZ(0) scale(1);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(100vh) scale(1.5);
+    opacity: 1;
+  }
+}
+
+/* ===== CARD ===== */
 .card {
   position: relative;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.04);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 20px;
-  padding: 24px;
+  padding: 32px 28px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.7);
   z-index: 2;
-  display:none;
 }
 
-h1 { margin:0; letter-spacing:1px; }
-.tagline { font-size:13px; opacity:.7; margin-bottom:18px; }
+h1 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.tagline {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-bottom: 22px;
+}
 
 input, textarea {
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  background:transparent;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:12px;
-  color:white;
-  outline:none;
-  font-size:14px;
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
 }
-
-textarea { resize:none; height:60px; }
 
 button {
-  width:100%;
-  padding:14px;
-  margin-top:14px;
-  border-radius:14px;
-  border:none;
-  background:white;
-  color:black;
-  font-weight:600;
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+  border-radius: 14px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: 600;
 }
 
-/* TERMINAL */
-.terminal-overlay {
-  position: fixed;
-  inset:0;
-  background: rgba(0,0,0,0.9);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
-  padding:12px;
+button:hover {
+  background: black;
+  color: white;
+  border: 1px solid white;
 }
 
-.terminal {
-  width:100%;
-  max-width:700px;
-  background:#000;
-  border:1px solid white;
-  padding:16px;
-  font-family: monospace;
-  font-size: clamp(12px, 3vw, 14px);
-}
-
-.terminal-header {
-  border-bottom:1px solid white;
-  padding-bottom:6px;
-  margin-bottom:10px;
-  text-align:center;
-}
-
-.terminal-line { margin:5px 0; }
-
-/* LOADER */
-.loader {
-  margin-top:10px;
-  width:100%;
-  height:10px;
-  border:1px solid white;
-  overflow:hidden;
-}
-.loader-bar {
-  height:100%;
-  width:0%;
-  background:white;
-  animation: load 1.5s linear forwards;
-}
-@keyframes load { to { width:100%; } }
-
-/* CURSOR */
+/* ===== CURSOR ===== */
 .cursor {
   position: fixed;
-  width:10px;
-  height:10px;
-  pointer-events:none;
-  transform: translate(-50%,-50%);
-  z-index:9999;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
 }
-.cursor-inner { width:100%; height:100%; background:white; border-radius:3px; }
+
+.cursor-inner {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 3px;
+}
+
 .cursor-middle {
-  position:absolute; top:-6px; left:-6px;
-  width:22px; height:22px;
-  border:1px solid white;
-  transform:rotate(45deg);
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(255,255,255,0.8);
+  transform: rotate(45deg);
   animation: spin 6s linear infinite;
 }
+
 .cursor-outer {
-  position:absolute; top:-12px; left:-12px;
-  width:34px; height:34px;
-  border:1px dashed rgba(255,255,255,.3);
-  border-radius:50%;
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  width: 34px;
+  height: 34px;
+  border: 1px dashed rgba(255,255,255,0.3);
+  border-radius: 50%;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.cursor.click .cursor-inner { transform: scale(0.5); }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== TERMINAL ===== */
+#terminalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+#terminalWarp {
+  width: 90%;
+  max-width: 520px;
+  height: 65vh;
+  background: radial-gradient(circle at center, #111 0%, #000 70%);
+  border: 2px solid white;
+  box-shadow: 0 0 30px white;
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  animation: glow 2s infinite alternate, shake 0.3s linear 1;
+}
+
+@keyframes glow {
+  from { box-shadow:0 0 15px white; }
+  to { box-shadow:0 0 35px white; }
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2px,-2px); }
+  50% { transform: translate(-2px,2px); }
+  75% { transform: translate(2px,2px); }
+  100% { transform: translate(0,0); }
+}
+
+#terminalWarp::before {
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background: conic-gradient(#fff,#000,#fff,#000);
+  animation: spinWarp 6s linear infinite;
+  opacity:0.12;
+}
+
+@keyframes spinWarp {
+  to { transform: rotate(360deg); }
+}
+
+#terminalHeader {
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+#terminalContent {
+  height: calc(100% - 70px);
+  overflow-y: auto;
+  font-size: 13px;
+  position: relative;
+  z-index:2;
+}
+
+.progressWarp {
+  width: 100%;
+  height: 10px;
+  border: 1px solid white;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+#progressBar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, white, gray, white);
+  animation: shimmer 1s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position:200%; }
+}
 
 @media(max-width:500px){
   .cursor { display:none; }
+  #terminalWarp { height:70vh; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="boot" id="boot">
+<div class="starfield" id="starfield"></div>
+
+<div class="card">
   <h1>ZEROCACHE</h1>
-  <p>no cache, no limits.</p>
-  <p>initializing system...</p>
-</div>
-
-<div class="pixels"></div>
-
-<div class="card" id="mainCard">
-  <h1>Z E R O C A C H E</h1>
   <div class="tagline">no cache, no limits.</div>
 
   <form id="regForm">
-    <input id="name" placeholder="Full Name" required>
-    <input id="email" type="email" placeholder="Email" required>
-    <input id="phone" placeholder="Phone Number" required>
-    <input id="college" placeholder="College / University" required>
-    <input id="course" placeholder="Course" required>
-    <input id="year" placeholder="Year" required>
-    <textarea id="work" placeholder="Work Details (optional)"></textarea>
-    <input id="dob" type="date" required>
-    <button type="submit">Join Zerocache</button>
+    <input id="name" placeholder="full name" required>
+    <input id="email" placeholder="email" required>
+    <input id="phone" placeholder="phone number" required>
+    <input id="college" placeholder="college / university" required>
+    <input id="course" placeholder="course" required>
+    <input id="year" placeholder="year" required>
+    <textarea id="work" placeholder="work details (optional)"></textarea>
+    <input type="date" id="dob" required>
+    <button type="submit">join zerocache</button>
   </form>
 </div>
 
-<div class="terminal-overlay" id="terminalOverlay">
-  <div class="terminal" id="terminal"></div>
+<div id="terminalOverlay">
+  <div id="terminalWarp">
+    <div id="terminalHeader">ZEROCACHE</div>
+    <div id="terminalContent"></div>
+    <div class="progressWarp"><div id="progressBar"></div></div>
+  </div>
 </div>
 
 <div class="cursor" id="cursor">
@@ -221,36 +281,53 @@ button {
 const scriptURL = "https://script.google.com/macros/s/AKfycbwKVv_iVLMe7sKx5af-U9QZD7c25K72uFtgJHWl5b839E5la5dmtomZSxYjXh_cYs7u/exec";
 const discordURL = "https://discord.gg/Hz3KCKusWz";
 
-/* BOOT */
-setTimeout(()=>{
-  boot.style.display="none";
-  mainCard.style.display="block";
-},2000);
+/* ===== STARFIELD GENERATOR ===== */
+const starfield = document.getElementById("starfield");
+for(let i=0;i<150;i++){
+  const star = document.createElement("div");
+  star.className = "star";
+  star.style.left = Math.random()*100+"vw";
+  star.style.top = Math.random()*100+"vh";
+  star.style.animationDuration = (Math.random()*3+2)+"s";
+  starfield.appendChild(star);
+}
 
+/* ===== CURSOR ===== */
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove", e=>{
+  cursor.style.left = e.clientX+"px";
+  cursor.style.top = e.clientY+"px";
+});
+
+/* ===== TERMINAL ===== */
 const terminalOverlay = document.getElementById("terminalOverlay");
-const terminal = document.getElementById("terminal");
+const terminalContent = document.getElementById("terminalContent");
+const progressBar = document.getElementById("progressBar");
 
 function addLine(text, delay){
   setTimeout(()=>{
-    const line = document.createElement("div");
-    line.className = "terminal-line";
-    line.textContent = "> " + text;
-    terminal.appendChild(line);
+    terminalContent.innerHTML += `<div>> ${text}</div>`;
+    terminalContent.scrollTop = terminalContent.scrollHeight;
   }, delay);
 }
 
-regForm.addEventListener("submit", e=>{
+document.getElementById("regForm").addEventListener("submit", e=>{
   e.preventDefault();
 
   terminalOverlay.style.display="flex";
-  terminal.innerHTML = `
-    <div class="terminal-header">ZC TERMINAL v1.0</div>
-    <div class="loader"><div class="loader-bar"></div></div>
-  `;
+  terminalContent.innerHTML="";
+  progressBar.style.width="0%";
+
+  let p=0;
+  let loader=setInterval(()=>{
+    p+=5;
+    progressBar.style.width=p+"%";
+    if(p>=100) clearInterval(loader);
+  },25);
 
   fetch(scriptURL,{
     method:"POST",
-    body: JSON.stringify({
+    body:JSON.stringify({
       name:name.value,
       email:email.value,
       phone:phone.value,
@@ -261,29 +338,18 @@ regForm.addEventListener("submit", e=>{
       dob:dob.value
     })
   }).then(()=>{
-
-    addLine("boot sequence complete.", 300);
-    addLine("encrypting user data...", 700);
-    addLine("welcome to zerocache.", 1200);
-    addLine("redirecting in 3...", 1700);
-    addLine("2...", 2200);
-    addLine("1...", 2700);
+    addLine("booting terminal...",200);
+    addLine("data submitted successfully.",600);
+    addLine("welcome to zerocache.",1000);
+    addLine("redirecting to discord in 3...",1400);
+    addLine("2...",1800);
+    addLine("1...",2200);
 
     setTimeout(()=>{
       window.location.href = discordURL;
-    },3200);
-
+    },2600);
   });
 });
-
-/* PERFECT CURSOR */
-const cursor = document.getElementById("cursor");
-document.addEventListener("mousemove", e=>{
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-});
-document.addEventListener("mousedown", ()=>cursor.classList.add("click"));
-document.addEventListener("mouseup", ()=>cursor.classList.remove("click"));
 </script>
 
 </body>
