@@ -132,21 +132,30 @@ button {
 
 .terminal-line { margin:5px 0; }
 
-/* LOADER */
+/* LOADER - bouncing blocks */
 .loader {
+  display:flex;
+  justify-content: space-between;
   margin-top:10px;
-  width:100%;
+  width:60px;
+  height:12px;
+}
+.loader span {
+  display:block;
+  width:10px;
   height:10px;
-  border:1px solid white;
-  overflow:hidden;
-}
-.loader-bar {
-  height:100%;
-  width:0%;
   background:white;
-  animation: load 1.5s linear forwards;
+  animation:bounce 0.6s infinite ease-in-out;
 }
-@keyframes load { to { width:100%; } }
+.loader span:nth-child(2){ animation-delay:0.1s; }
+.loader span:nth-child(3){ animation-delay:0.2s; }
+.loader span:nth-child(4){ animation-delay:0.3s; }
+.loader span:nth-child(5){ animation-delay:0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scaleY(0.3); }
+  40% { transform: scaleY(1); }
+}
 
 /* CURSOR */
 .cursor {
@@ -227,6 +236,7 @@ setTimeout(()=>{
   mainCard.style.display="block";
 },2000);
 
+/* TERMINAL */
 const terminalOverlay = document.getElementById("terminalOverlay");
 const terminal = document.getElementById("terminal");
 
@@ -245,7 +255,9 @@ regForm.addEventListener("submit", e=>{
   terminalOverlay.style.display="flex";
   terminal.innerHTML = `
     <div class="terminal-header">ZC TERMINAL v1.0</div>
-    <div class="loader"><div class="loader-bar"></div></div>
+    <div class="loader">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
   `;
 
   fetch(scriptURL,{
@@ -261,18 +273,17 @@ regForm.addEventListener("submit", e=>{
       dob:dob.value
     })
   }).then(()=>{
-
-    addLine("boot sequence complete.", 300);
-    addLine("encrypting user data...", 700);
-    addLine("welcome to zerocache.", 1200);
-    addLine("redirecting in 3...", 1700);
-    addLine("2...", 2200);
-    addLine("1...", 2700);
+    // loader visually bounces but output is instant
+    addLine("boot sequence complete.", 0);
+    addLine("encrypting user data...", 0);
+    addLine("welcome to zerocache.", 0);
+    addLine("redirecting in 3...", 0);
+    addLine("2...", 300);
+    addLine("1...", 600);
 
     setTimeout(()=>{
       window.location.href = discordURL;
-    },3200);
-
+    },900);
   });
 });
 
@@ -284,6 +295,21 @@ document.addEventListener("mousemove", e=>{
 });
 document.addEventListener("mousedown", ()=>cursor.classList.add("click"));
 document.addEventListener("mouseup", ()=>cursor.classList.remove("click"));
+
+/* STARFIELD */
+const starfield = document.querySelector(".pixels");
+for(let i=0;i<150;i++){
+  const star = document.createElement("div");
+  star.className="star";
+  star.style.left=Math.random()*100+"vw";
+  star.style.top=Math.random()*100+"vh";
+  star.style.width=star.style.height="2px";
+  star.style.background="white";
+  star.style.opacity="0.8";
+  star.style.position="absolute";
+  star.style.animation=`warp ${Math.random()*3+2}s linear infinite`;
+  starfield.appendChild(star);
+}
 </script>
 
 </body>
