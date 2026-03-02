@@ -145,12 +145,12 @@ button {
   width:10px;
   height:10px;
   background:white;
-  animation:bounce 0.6s infinite ease-in-out;
+  animation:bounce 0.3s infinite ease-in-out;
 }
-.loader span:nth-child(2){ animation-delay:0.1s; }
-.loader span:nth-child(3){ animation-delay:0.2s; }
-.loader span:nth-child(4){ animation-delay:0.3s; }
-.loader span:nth-child(5){ animation-delay:0.4s; }
+.loader span:nth-child(2){ animation-delay:0.05s; }
+.loader span:nth-child(3){ animation-delay:0.1s; }
+.loader span:nth-child(4){ animation-delay:0.15s; }
+.loader span:nth-child(5){ animation-delay:0.2s; }
 
 @keyframes bounce {
   0%, 80%, 100% { transform: scaleY(0.3); }
@@ -274,12 +274,12 @@ regForm.addEventListener("submit", e=>{
     })
   }).then(()=>{
     // loader visually bounces but output is instant
-    addLine("boot sequence complete.", 0);
-    addLine("encrypting user data...", 0);
-    addLine("welcome to zerocache.", 0);
-    addLine("redirecting in 3...", 0);
-    addLine("2...", 300);
-    addLine("1...", 600);
+    addLine("boot sequence complete.", 100);
+    addLine("encrypting user data...", 300);
+    addLine("welcome to zerocache.", 500);
+    addLine("redirecting in 3...", 700);
+    addLine("2...", 900);
+    addLine("1...", 1000);
 
     setTimeout(()=>{
       window.location.href = discordURL;
