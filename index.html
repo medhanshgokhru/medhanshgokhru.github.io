@@ -274,12 +274,12 @@ regForm.addEventListener("submit", e=>{
     })
   }).then(()=>{
     // loader visually bounces but output is instant
-    addLine("boot sequence complete.", 100);
-    addLine("encrypting user data...", 300);
-    addLine("welcome to zerocache.", 500);
-    addLine("redirecting in 3...", 700);
-    addLine("2...", 900);
-    addLine("1...", 1000);
+    addLine("boot sequence complete.", 0);
+    addLine("encrypting user data...", 100);
+    addLine("welcome to zerocache.", 300);
+    addLine("redirecting in 3...", 500);
+    addLine("2...", 700);
+    addLine("1...", 900);
 
     setTimeout(()=>{
       window.location.href = discordURL;
