@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Zerocache | no cache, no limits</title>
+<title>Zerocache | no cache, no limits.</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -22,7 +22,7 @@ body {
   overflow: hidden;
 }
 
-/* ===== BOOT SCREEN ===== */
+/* BOOT */
 .boot {
   position: fixed;
   inset: 0;
@@ -33,25 +33,16 @@ body {
   align-items: center;
   z-index: 20;
 }
-
 .boot h1 {
-  font-size: 48px;
+  font-size: clamp(32px, 8vw, 48px);
   letter-spacing: 4px;
   animation: glitch 1.5s infinite;
 }
-
-.boot p {
-  margin-top: 12px;
-  opacity: .7;
-  font-family: monospace;
-}
+.boot p { margin-top: 12px; opacity:.7; font-family: monospace; }
 
 @keyframes glitch {
   0% { text-shadow: 2px 0 white, -2px 0 white; }
-  20% { text-shadow: -2px -2px white, 2px 2px white; }
-  40% { text-shadow: 2px -2px white, -2px 2px white; }
-  60% { text-shadow: -1px 1px white, 1px -1px white; }
-  80% { text-shadow: 2px 2px white, -2px -2px white; }
+  50% { text-shadow: -2px -2px white, 2px 2px white; }
   100% { text-shadow: none; }
 }
 
@@ -74,7 +65,7 @@ body {
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: 20px;
-  padding: 32px 28px;
+  padding: 24px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 30px 60px rgba(0,0,0,0.7);
@@ -83,17 +74,18 @@ body {
 }
 
 h1 { margin:0; letter-spacing:1px; }
-.tagline { font-size:13px; opacity:.7; margin-bottom:22px; }
+.tagline { font-size:13px; opacity:.7; margin-bottom:18px; }
 
 input, textarea {
   width:100%;
   padding:12px;
-  margin:7px 0;
+  margin:6px 0;
   background:transparent;
   border:1px solid rgba(255,255,255,.25);
   border-radius:12px;
   color:white;
   outline:none;
+  font-size:14px;
 }
 
 textarea { resize:none; height:60px; }
@@ -101,7 +93,7 @@ textarea { resize:none; height:60px; }
 button {
   width:100%;
   padding:14px;
-  margin-top:16px;
+  margin-top:14px;
   border-radius:14px;
   border:none;
   background:white;
@@ -118,40 +110,42 @@ button {
   justify-content:center;
   align-items:center;
   z-index:10;
+  padding:12px;
 }
 
 .terminal {
-  width:85%;
+  width:100%;
   max-width:700px;
   background:#000;
   border:1px solid white;
-  padding:20px;
+  padding:16px;
   font-family: monospace;
+  font-size: clamp(12px, 3vw, 14px);
 }
 
 .terminal-header {
   border-bottom:1px solid white;
-  padding-bottom:8px;
-  margin-bottom:12px;
+  padding-bottom:6px;
+  margin-bottom:10px;
+  text-align:center;
 }
 
-.terminal-line { margin:6px 0; }
+.terminal-line { margin:5px 0; }
 
+/* LOADER */
 .loader {
-  margin-top:12px;
+  margin-top:10px;
   width:100%;
-  height:12px;
+  height:10px;
   border:1px solid white;
   overflow:hidden;
 }
-
 .loader-bar {
   height:100%;
   width:0%;
   background:white;
-  animation: load 3s linear forwards;
+  animation: load 1.5s linear forwards;
 }
-
 @keyframes load { to { width:100%; } }
 
 /* CURSOR */
@@ -177,7 +171,6 @@ button {
   border:1px dashed rgba(255,255,255,.3);
   border-radius:50%;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 .cursor.click .cursor-inner { transform: scale(0.5); }
 
@@ -189,17 +182,16 @@ button {
 
 <body>
 
-<!-- BOOT -->
 <div class="boot" id="boot">
   <h1>ZEROCACHE</h1>
-  <p>no cache, no limits</p>
+  <p>no cache, no limits.</p>
   <p>initializing system...</p>
 </div>
 
 <div class="pixels"></div>
 
 <div class="card" id="mainCard">
-  <h1>ZEROCACHE</h1>
+  <h1>Z E R O C A C H E</h1>
   <div class="tagline">no cache, no limits.</div>
 
   <form id="regForm">
@@ -215,14 +207,10 @@ button {
   </form>
 </div>
 
-<!-- TERMINAL -->
 <div class="terminal-overlay" id="terminalOverlay">
-  <div class="terminal" id="terminal">
-    <div class="terminal-header">ZEROCACHE TERMINAL v1.0</div>
-  </div>
+  <div class="terminal" id="terminal"></div>
 </div>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor">
   <div class="cursor-outer"></div>
   <div class="cursor-middle"></div>
@@ -233,11 +221,11 @@ button {
 const scriptURL = "https://script.google.com/macros/s/AKfycbwKVv_iVLMe7sKx5af-U9QZD7c25K72uFtgJHWl5b839E5la5dmtomZSxYjXh_cYs7u/exec";
 const discordURL = "https://discord.gg/Hz3KCKusWz";
 
-/* BOOT SCREEN */
+/* BOOT */
 setTimeout(()=>{
-  document.getElementById("boot").style.display="none";
-  document.getElementById("mainCard").style.display="block";
-}, 2500);
+  boot.style.display="none";
+  mainCard.style.display="block";
+},2000);
 
 const terminalOverlay = document.getElementById("terminalOverlay");
 const terminal = document.getElementById("terminal");
@@ -251,12 +239,14 @@ function addLine(text, delay){
   }, delay);
 }
 
-document.getElementById("regForm").addEventListener("submit", e=>{
+regForm.addEventListener("submit", e=>{
   e.preventDefault();
 
-  terminalOverlay.style.display = "flex";
-  terminal.innerHTML = `<div class="terminal-header">ZC TERMINAL v1.0</div>
-    <div class="loader"><div class="loader-bar"></div></div>`;
+  terminalOverlay.style.display="flex";
+  terminal.innerHTML = `
+    <div class="terminal-header">ZC TERMINAL v1.0</div>
+    <div class="loader"><div class="loader-bar"></div></div>
+  `;
 
   fetch(scriptURL,{
     method:"POST",
@@ -272,16 +262,16 @@ document.getElementById("regForm").addEventListener("submit", e=>{
     })
   }).then(()=>{
 
-    addLine("boot sequence complete.", 400);
-    addLine("encrypting user data...", 1200);
-    addLine("welcome to zerocache.", 2000);
-    addLine("redirecting to discord in 3...", 2600);
-    addLine("2...", 3100);
-    addLine("1...", 3600);
+    addLine("boot sequence complete.", 300);
+    addLine("encrypting user data...", 700);
+    addLine("welcome to zerocache.", 1200);
+    addLine("redirecting in 3...", 1700);
+    addLine("2...", 2200);
+    addLine("1...", 2700);
 
     setTimeout(()=>{
       window.location.href = discordURL;
-    },4200);
+    },3200);
 
   });
 });
